@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Store } from "./store";
+import './style/app.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+
+	constructor (props) {
+		super(props);
+		this.state = Store.getState();
+		Store.subscribe(this.storeChange);
+	}
+
+	storeChange () {
+		this.setState(Store.getState());
+	}
+
+	render () {
+		return (
+			<div className='app'>
+				asdasd
+			</div>
+		)
+	}
 }
 
-export default App;
+export default withRouter(App);
