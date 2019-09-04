@@ -3,16 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5752dee9-e0d1-42b0-a2bb-a30318c1c752" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/about.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/about.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/developer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/developer.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/forum.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/forum.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/home.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/internet.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/internet.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/login.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/register.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/science.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/science.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
