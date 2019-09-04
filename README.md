@@ -3,5 +3,6 @@
 
 ### Run project
 ```cmd
+cd conrld_web
 npm run start
 ```
