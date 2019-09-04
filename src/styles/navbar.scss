@@ -1,0 +1,25 @@
+.nav_bar {
+    width: 100%;
+    min-width: 1200px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 10px;
+    position: fixed;
+    top: 0;
+    .conrld_logo, .nav_menu {
+        flex: 1;
+    }
+    .nav_link {
+        display: flex;
+        justify-content: center;
+        justify-items: center;
+        a {
+            padding: 0 10px;
+            line-height: 47px;
+        }
+        .write {
+            margin: 7.5px 0;
+        }
+    }
+    border-bottom: 1px solid #e8e8e8;
+}
