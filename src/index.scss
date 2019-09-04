@@ -2,9 +2,15 @@
     margin: 0;
     padding: 0;
 }
-.ant-menu-horizontal {
-    border-bottom: none;
-}
-#root {
-    padding-top: 57px;
+body {
+    #root {
+        .nav_bar {
+            .ant-menu-horizontal {
+                border-bottom: none;
+            }
+        }
+        .home, .developer, .about, .forum, .internet, .science{
+            padding-top: 57px;
+        }
+    }
 }
