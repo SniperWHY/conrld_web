@@ -4,7 +4,6 @@ import * as Action from "../action";
 import { connect } from 'react-redux';
 
 import '../styles/register.scss';
-
 class Register extends React.Component {
 	render() {
 		return (
