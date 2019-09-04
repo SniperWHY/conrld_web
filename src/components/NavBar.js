@@ -31,7 +31,7 @@ class NavBar extends React.Component {
 						开发者
 					</Menu.Item>
 					<Menu.Item key='about' >
-					`	关于
+						关于
 					</Menu.Item>
 				</Menu>
 				<div className='nav_link'>
