@@ -2,7 +2,8 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import {
 	Menu,
-	Button
+	Button,
+	Icon
 } from 'antd';
 import * as Action from '../action';
 import { connect } from 'react-redux';
@@ -16,21 +17,27 @@ class NavBar extends React.Component {
 				<div className='conrld_logo'>logo</div>
 				<Menu className='nav_menu' onClick={ this.handleMenuClick } mode="horizontal" selectedKeys={ [this.props.navState] }>
 					<Menu.Item key='home' >
+						<Icon type="home" />
 						首页
 					</Menu.Item>
 					<Menu.Item key='science' >
+						<Icon type="setting" theme="filled" />
 						科技
 					</Menu.Item>
 					<Menu.Item key='forum' >
+						<Icon type="usergroup-delete" />
 						论坛
 					</Menu.Item>
 					<Menu.Item key='internet' >
+						<Icon type="global" />
 						互联网
 					</Menu.Item>
 					<Menu.Item key='developer' >
+						<Icon type="code" theme="filled" />
 						开发者
 					</Menu.Item>
 					<Menu.Item key='about' >
+						<Icon type="info-circle" />
 						关于
 					</Menu.Item>
 				</Menu>
