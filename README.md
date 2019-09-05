@@ -9,9 +9,7 @@
 >>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[WHY](https://github.com/SniperWHY)
 >---
 >>#### Plug-ins in use :
-
 >>`react`,`react-dom`,`react-redux`,`react-router-dom`,`sass`,`Ant Design`,`for-editor`,`md5`
-
 ---
 #### run project in `npm`
 1. `cd conrld_web`
