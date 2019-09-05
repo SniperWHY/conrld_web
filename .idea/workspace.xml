@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5752dee9-e0d1-42b0-a2bb-a30318c1c752" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Slider.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/slider.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/config/editorConfig/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/dm_edit.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/MdEdit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/register.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/RouterView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/RouterView.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,8 +20,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
+        <option value="HTML File" />
         <option value="SCSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -38,6 +42,8 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="list.type.of.created.stylesheet" value="SCSS" />
@@ -52,6 +58,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/config" />
       <recent name="$PROJECT_DIR$/src/router" />
       <recent name="$PROJECT_DIR$/src/components" />
     </key>
@@ -95,6 +102,8 @@
       <updated>1567477495875</updated>
       <workItem from="1567477497081" duration="3000000" />
       <workItem from="1567562827908" duration="14686000" />
+      <workItem from="1567647353562" duration="10391000" />
+      <workItem from="1567665484863" duration="6358000" />
     </task>
     <servers />
   </component>

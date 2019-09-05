@@ -1,6 +1,10 @@
 *{
     margin: 0;
     padding: 0;
+    list-style-type: none;
+}
+html, body, #root {
+    height: 100%;
 }
 body {
     #root {
@@ -9,7 +13,7 @@ body {
                 border-bottom: none;
             }
         }
-        .home, .developer, .about, .forum, .internet, .science{
+        .home, .developer, .about, .forum, .internet, .science, .editor{
             padding-top: 57px;
         }
     }

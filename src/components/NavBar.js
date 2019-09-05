@@ -44,7 +44,11 @@ class NavBar extends React.Component {
 				<div className='nav_link'>
 					<Link to='/register'>注册</Link>
 					<Link to='/login'>登录</Link>
-					<Button className='write' type='primary' shape="round" icon='edit'>写文章</Button>
+					{
+						this.props.navState !== "markdownEdit" ? (
+							<Button className='write' type='primary' onClick={ this.editMd } shape="round" icon='edit'>写文章</Button>
+						) : null
+					}
 				</div>
 			</nav>
 		)
@@ -58,6 +62,10 @@ class NavBar extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {}
+	}
+	editMd = () => {
+		// 后续加入判断是否进入编辑界面
+		this.props.history.push('/mdEdit', {});
 	}
 }
 

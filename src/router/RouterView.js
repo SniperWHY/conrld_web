@@ -12,6 +12,7 @@ import Forum from "../views/Forum";
 import Internet from "../views/Internet";
 import Developer from "../views/Developer";
 import About from "../views/About";
+import MdEdit from "../views/MdEdit";
 
 class RouterView extends React.Component {
 	render() {
@@ -25,6 +26,7 @@ class RouterView extends React.Component {
 				<Route exact path='/about' component={ () => <About /> } />
 				<Route exact path='/login' component={ () => <Login /> } />
 				<Route exact path='/register' component={ () => <Register /> } />
+				<Route exact path='/mdEdit' component={ () => <MdEdit /> } />
 				<Route path='/*' component={ () => <BreakHome /> } />
 			</Switch>
 		)
