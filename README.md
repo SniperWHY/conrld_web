@@ -3,27 +3,28 @@
 >
 >![React Logo](https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4218752244,1526948581&fm=26&gp=0.jpg)
 
-Contributor
----
-![WHY](https://avatars3.githubusercontent.com/u/40160738?s=100)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[WHY](https://github.com/SniperWHY)
----
-#### Plug-ins in use :
-`react`
+>>Contributor
+>>---
+>>![WHY](https://avatars3.githubusercontent.com/u/40160738?s=100)  
+>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[WHY](https://github.com/SniperWHY)
+>---
+>>#### Plug-ins in use :
+>>`react`
 
-`react-dom`
+>>`react-dom`
 
-`react-redux`
+>>`react-redux`
 
-`react-router-dom`
+>>`react-router-dom`
 
-`sass`
+>>`sass`
 
-`Ant Design`
+>>`Ant Design`
 
-`for-editor`
+>>`for-editor`
 
-`md5`
+>>`md5`
+
 ---
 #### run project in `npm`
 1. `cd conrld_web`
