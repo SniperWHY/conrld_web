@@ -10,14 +10,7 @@
 >---
 >>#### Plug-ins in use :
 
->>`react`
->>`react-dom`
->>`react-redux`
->>`react-router-dom`
->>`sass`
->>`Ant Design`
->>`for-editor`
->>`md5`
+>>`react`,`react-dom`,`react-redux`,`react-router-dom`,`sass`,`Ant Design`,`for-editor`,`md5`
 
 ---
 #### run project in `npm`
