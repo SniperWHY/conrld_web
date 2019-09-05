@@ -2,6 +2,16 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
+    @font-face {
+        font-family: 'webfont';
+        font-display: swap;
+        src: url('//at.alicdn.com/t/webfont_aqbgd45c5dw.eot'); /* IE9*/
+        src: url('//at.alicdn.com/t/webfont_aqbgd45c5dw.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('//at.alicdn.com/t/webfont_aqbgd45c5dw.woff2') format('woff2'),
+        url('//at.alicdn.com/t/webfont_aqbgd45c5dw.woff') format('woff'), /* chrome、firefox */
+        url('//at.alicdn.com/t/webfont_aqbgd45c5dw.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+        url('//at.alicdn.com/t/webfont_aqbgd45c5dw.svg#AlibabaPuHuiTiM') format('svg'); /* iOS 4.1- */
+    }
 }
 html, body, #root {
     height: 100%;
