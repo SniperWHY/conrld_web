@@ -9,20 +9,17 @@
 >>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[WHY](https://github.com/SniperWHY)
 >---
 >>#### Plug-ins in use :
->>`react`,`react-dom`,`react-redux`,`react-router-dom`,`sass`,`Ant Design`,`for-editor`,`md5`
+>>`react` , `react-dom` , `react-redux` , `react-router-dom` , `sass` , `Ant Design` , `for-editor` , `md5`
 ---
-#### run project in `npm`
-1. `cd conrld_web`
-2. `npm install`
-3. `npm run start` or `npm start`
-
-#### run project in 
-
-`yarn` 
-
-1. `cd conrld_web`
-2. `yarn`
-3. `yarn start`
-
+>### Run project  
+>>`yarn` 
+>>>1. `cd conrld_web`
+>>>2. `yarn`
+>>>3. `yarn start`
+>>
+>>`npm`
+>>>1. `cd conrld_web`
+>>>2. `npm install`
+>>>3. `npm run start` or `npm start`
 ---
 #### Last update time: 2019-9-5 / 17:14
