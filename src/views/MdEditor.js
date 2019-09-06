@@ -5,11 +5,11 @@ import * as Action from '../action';
 import Editor from 'for-editor';
 import EditorToolBarConfig from '../config/editorConfig';
 import NavBar from "../components/NavBar";
-import { Input, Button } from 'antd';
-import '../styles/dm_edit.scss';
+import {  Input,
+		  Button } from 'antd';
+import '../styles/md_editor.scss';
 
-
-class MdEdit extends React.Component {
+class MdEditor extends React.Component {
 	render () {
 		return (
 			<div className='editor'>
@@ -66,4 +66,4 @@ export default connect(
 			setNavState: data => {dispatch(Action.setNavState(data))}
 		}
 	}
-)(withRouter(MdEdit));
+)(withRouter(MdEditor));

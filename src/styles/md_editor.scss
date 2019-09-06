@@ -5,7 +5,7 @@
         display: flex;
         padding: 15px 10px ;
         margin: 10px 0;
-        background: #CACACA;
+        background: #EEEEEE;
         border-radius: 5px;
         .input_tips {
             height: 100%;
@@ -28,10 +28,12 @@
             height: 100%;
         }
         .for-container{
+            border-radius: 0;
+            box-shadow: none;
             .for-editor {
                 // 编辑区
                 .for-editor-edit {
-                    background: antiquewhite;
+                    background: beige;
                     font-size: 20px;
                 }
             }

@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import {
 	CHANGE_NAV_STATE,
 	CHANGE_REGISTER_CURRENT,
-	CHANGE_REGISTER
 } from '../action';
 
 const navBar = (state = "", action) => {
@@ -14,15 +13,14 @@ const navBar = (state = "", action) => {
 	return state;
 };
 
-const register = (state = {current:0}, action) => {
-	const stateCopy = Object.assign(state);
+const register = (state = {current: 0}, action) => {
+	const stateCopy = {...state};
 	switch (action.type) {
-		case CHANGE_REGISTER:
-			return action.data;
 		case CHANGE_REGISTER_CURRENT:
 			stateCopy.current = action.data;
 			return stateCopy;
-		default: return state;
+		default:
+			return state;
 	}
 };
 

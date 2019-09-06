@@ -2,13 +2,11 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import * as Action from "../action";
 import { connect } from 'react-redux';
-import {
-	Steps,
-	Icon,
-	Input,
-	Tooltip,
-	Button
-} from 'antd';
+import { Steps,
+		 Icon,
+		 Input,
+		 Tooltip,
+		 Button } from 'antd';
 import MailOption from '../components/MailOption';
 import Slider from "../components/Slider";
 import Util from '../tools';
@@ -33,14 +31,14 @@ class Register extends React.Component {
 				</div>
 				<div className='register_content' ref={ registerContent => this.registerContent = registerContent }>
 					<h1>验证邮箱</h1>
-					<Steps current={ this.props.current }>
+					<Steps current={ this.props.register.current }>
 						<Steps.Step title='验证Email' icon={ <Icon type='mail' /> }/>
-						<Steps.Step title='填写资料' icon={ <Icon type='solution' /> }/>
+						<Steps.Step title='填写资料' icon={ <Icon type="form" /> }/>
 						<Steps.Step title='注册完成' icon={ <Icon type="check-circle" /> }/>
 					</Steps>
 					<div className='register_step'>
 						{
-							this.props.current === 0 ? (
+							this.props.register.current === 0 ? (
 								<div className='v_mail'>
 									<Tooltip
 										trigger={['focus']}
@@ -55,10 +53,10 @@ class Register extends React.Component {
 											placeholder='邮箱...'
 											maxLength={ 20 }
 											prefix={ <Icon type='mail' style={ this.state.mailInputIsIn ? { color: 'rgb(24, 144, 255)' } : { color: 'rgba(0, 0, 0, .25)' }} /> }
-											size='large'
-											addonAfter={ <MailOption defaultValue={ '@qq.com' } value={ this.state.option } onSelect={ this.handleMailInputSelectChange }/> }
-											value={ this.state.mail }
-											onChange={ this.handleMailChange }
+										size='large'
+										addonAfter={ <MailOption defaultValue={ '@qq.com' } value={ this.state.option } onSelect={ this.handleMailInputSelectChange }/> }
+										value={ this.state.mail }
+										onChange={ this.handleMailChange }
 										/>
 									</Tooltip>
 									<div className='register_v_p'>
@@ -93,18 +91,22 @@ class Register extends React.Component {
 													maxLength={ 6 }
 													className='register_vcode' />
 											</Tooltip>
-											<Button type='primary' size='large' className='register_send_vcode'>发送验证码</Button>
+											<Button
+												icon="redo"
+												type='primary'
+												size='large'
+												className='register_send_vcode'>发送验证码</Button>
 										</div>
 									</div>
 									<Button className='to_next' size='large' type='primary' onClick={ this.handleToNextClick }>下一步</Button>
 								</div>
 							) : (
-								this.props.current === 1 ? (
+								this.props.register.current === 1 ? (
 									<div className='edit_register_info'>
 										填写信息
 									</div>
 								) : (
-									this.props.current === 2 ? (
+									this.props.register.current === 2 ? (
 										<div className='register_ok'>
 											注册完成
 										</div>
@@ -122,7 +124,6 @@ class Register extends React.Component {
 		this.props.setNavState("register");
 	}
 	componentDidMount() {
-		this.mailInput.focus();
 	}
 	constructor (props) {
 		super(props);
@@ -136,11 +137,7 @@ class Register extends React.Component {
 	}
 	// 完成邮箱验证
 	handleToNextClick = () => {
-		let { register } = Object.assign(this.props);
-		register.current = 1;
 		this.props.setRegisterCurrent(1);
-		console.log(this.props.current);
-		this.setState({});
 	};
 	handleMailInputFocus = () => {
 		this.setState({ mailInputIsIn: true });
@@ -193,15 +190,15 @@ class Register extends React.Component {
 	};
 }
 export default connect(
-	({ navBar, register }) => ({
-		navState: navBar,
-		register: register,
-		current: register.current
-	}),
+	({ navBar, register }) => {
+		return {
+			navState: navBar,
+			register: register
+		}
+	},
 	(dispatch) => {
 		return {
 			setNavState: data => { dispatch(Action.setNavState(data)) },
-			setRegister: data => { dispatch(Action.setRegister(data)) },
 			setRegisterCurrent: data => { dispatch(Action.setRegisterCurrent(data)) }
 		}
 	}

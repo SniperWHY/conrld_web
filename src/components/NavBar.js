@@ -42,8 +42,8 @@ class NavBar extends React.Component {
 					</Menu.Item>
 				</Menu>
 				<div className='nav_link'>
-					<Link to='/register'>注册</Link>
-					<Link to='/login'>登录</Link>
+					<Link to='/register'><Icon type='form' />&nbsp;注册</Link>
+					<Link to='/login'><Icon type="login" />&nbsp;登录</Link>
 					{
 						this.props.navState !== "markdownEdit" ? (
 							<Button className='write' type='primary' onClick={ this.editMd } shape="round" icon='edit'>写文章</Button>

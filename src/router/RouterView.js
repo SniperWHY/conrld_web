@@ -12,7 +12,7 @@ import Forum from "../views/Forum";
 import Internet from "../views/Internet";
 import Developer from "../views/Developer";
 import About from "../views/About";
-import MdEdit from "../views/MdEdit";
+import MdEdit from "../views/MdEditor";
 
 class RouterView extends React.Component {
 	render() {
