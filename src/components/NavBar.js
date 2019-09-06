@@ -33,7 +33,7 @@ class NavBar extends React.Component {
 						互联网
 					</Menu.Item>
 					<Menu.Item key='developer' >
-						<Icon type="code" theme="filled" />
+						<Icon type="tool" theme="filled" />
 						开发者
 					</Menu.Item>
 					<Menu.Item key='about' >
