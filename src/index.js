@@ -9,6 +9,7 @@ import { createStore } from 'redux';
 import Reducer from './reducers';
 import 'antd/dist/antd.css';
 import './index.scss';
+import 'rc-texty/assets/index.css';
 
 export const store = createStore(Reducer);
 

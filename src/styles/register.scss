@@ -13,8 +13,27 @@
         border-radius: 3px;
         padding: 20px;
         z-index: 800;
-        h1 {
+        .header {
             padding-left: 10px;
+            height: 42px;
+            position: relative;
+            .text_box1, .text_box2, .text_box3 {
+                width: 112px;
+                height: 42px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transition: all 900ms ease-in-out;
+            }
+            .text_box1 {
+                z-index: 200;
+            }
+            .text_box2 {
+                z-index: 300;
+            }
+            .text_box3 {
+                z-index: 400;
+            }
         }
         .register_step {
             margin-top: 5px;
@@ -99,7 +118,7 @@
         }
     }
     &>.nav:hover {
-        margin: 20px;
+        margin:0  20px 20px;
         width: calc(100% - 40px);
         min-width: 1160px;
         border-radius: 20px;

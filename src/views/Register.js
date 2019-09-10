@@ -1,24 +1,33 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter,
+	 	 Prompt } from 'react-router-dom';
 import * as Action from "../action";
+import Texty from 'rc-texty';
 import { connect } from 'react-redux';
 import { Steps,
 		 Icon,
 		 Input,
 		 Tooltip,
+		 message,
 		 Button } from 'antd';
 import MailOption from '../components/MailOption';
 import Slider from "../components/Slider";
 import Util from '../tools';
+import { getEnter } from "../config/FontAnimation";
+
 import '../styles/register.scss';
 
+const Cookie  = new Util.Cookies();
 const { Password } = Input;
 
 class Register extends React.Component {
 	prevMail = '@qq.com';
+	sendVCodeCount = 0;
 	render() {
+		console.log(this.props);
 		return (
 			<div className='register'>
+				<Prompt message={ this.handleOnLeave } />
 				<div className='nav' onMouseLeave={ this.handleNavBarMouseLeave } onMouseEnter={ this.handleNavBarMouseEnter } onClick={ this.handleNavBarClickBreakHome }>
 					<div className='logo'>
 						Conrld_Logo
@@ -30,11 +39,15 @@ class Register extends React.Component {
 					<Slider className="track"/>
 				</div>
 				<div className='register_content' ref={ registerContent => this.registerContent = registerContent }>
-					<h1>验证邮箱</h1>
-					<Steps current={ this.props.register.current }>
-						<Steps.Step title='验证Email' icon={ <Icon type='mail' /> }/>
-						<Steps.Step title='填写资料' icon={ <Icon type="form" /> }/>
-						<Steps.Step title='注册完成' icon={ <Icon type="check-circle" /> }/>
+					<h1 className='header'>
+						<div className='text_box1' style={this.props.register.current === 0 ? {} : {opacity: '0'}}><Texty duration={ 900 } enter={ getEnter } interval={ 1 }>{ this.props.register.current === 0 ? '验证邮箱' : "" }</Texty></div>
+						<div className='text_box2' style={this.props.register.current === 1 ? {} : {opacity: '0'}}><Texty duration={ 900 } enter={ getEnter } interval={ 1 }>{ this.props.register.current === 1 ? '编辑资料' : "" }</Texty></div>
+						<div className='text_box2' style={this.props.register.current === 2 ? {} : {opacity: '0'}}><Texty duration={ 900 } enter={ getEnter } interval={ 1 }>{ this.props.register.current === 2 ? '完成创建' : "" }</Texty></div>
+					</h1>
+					<Steps current={ this.props.register.current } status={ this.state.stepStatus }>
+						<Steps.Step title={ this.props.register.current !== 0 ? '已验证' : '验证邮箱' } icon={ this.props.register.current !== 0 ? <Icon type='check-circle' style={{color: 'green'}} />: <Icon type='mail' /> } />
+						<Steps.Step title={ this.props.register.current === 2 ? '已验证' : '填写资料'} icon={  this.props.register.current === 2 ? <Icon type='check-circle' style={{color: 'green'}} /> : <Icon type="form" /> }/>
+						<Steps.Step title='注册完成' icon={ (this.state.stepStatus === 'finish' && this.props.register.current === 2) ? <Icon type="check-circle" style={{color: 'green'}} /> : <Icon type="check-circle" /> } />
 					</Steps>
 					<div className='register_step'>
 						{
@@ -56,13 +69,13 @@ class Register extends React.Component {
 										size='large'
 										addonAfter={ <MailOption defaultValue={ '@qq.com' } value={ this.state.option } onSelect={ this.handleMailInputSelectChange }/> }
 										value={ this.state.mail }
-										onChange={ this.handleMailChange }
+										onChange={ this.handleMailInputChange }
 										/>
 									</Tooltip>
 									<div className='register_v_p'>
 										<Tooltip
 											trigger={['focus']}
-											title={ "输入密码,长度保持在8-15位" }
+											title={ "密码(不允许出现特殊字符),长度保持在8-15位" }
 											placement="topLeft"
 											overlayClassName="numeric-input">
 											<Password
@@ -71,9 +84,11 @@ class Register extends React.Component {
 												onFocus={ this.handlePasswordInputFocus }
 												onBlur={ this.handlePasswordInputBlur }
 												prefix={ <Icon type="key" style={ this.state.passwordInputIsIn ? { color: 'rgb(24, 144, 255)' } : { color: 'rgba(0, 0, 0, .25)' }} /> }
+												onChange={ this.handlePasswordInputChanged }
 												size='large'
 												maxLength={ 20 }
 												visibilityToggle={ true }
+												value={ this.state.password }
 												style={{ marginRight: '20px' }} />
 										</Tooltip>
 										<div className='send_vcode_group'>
@@ -87,15 +102,18 @@ class Register extends React.Component {
 													placeholder='验证码'
 													size='large'
 													value={ this.state.verificationCode }
-													onChange={ this.handleVerificationCodeInput }
+													onChange={ this.handleVerificationCodeInputChanged }
 													maxLength={ 6 }
 													className='register_vcode' />
 											</Tooltip>
 											<Button
-												icon="redo"
 												type='primary'
 												size='large'
-												className='register_send_vcode'>发送验证码</Button>
+												disabled={ this.state.isSendVCode }
+												onClick={ this.handleSendVerificationCode }
+												className='register_send_vcode'>{ this.state.isSendVCode ? `重新发送(${
+													(this.state.sendVCodeTime + "").length === 1 ? "0" + this.state.sendVCodeTime : this.state.sendVCodeTime
+													})` : '发送验证码' }</Button>
 										</div>
 									</div>
 									<Button className='to_next' size='large' type='primary' onClick={ this.handleToNextClick }>下一步</Button>
@@ -104,6 +122,7 @@ class Register extends React.Component {
 								this.props.register.current === 1 ? (
 									<div className='edit_register_info'>
 										填写信息
+										<Button onClick={ this.finishRegister } type='primary'>完成注册</Button>
 									</div>
 								) : (
 									this.props.register.current === 2 ? (
@@ -120,25 +139,125 @@ class Register extends React.Component {
 			</div>
 		)
 	}
-	componentWillMount() {
-		this.props.setNavState("register");
-	}
-	componentDidMount() {
-	}
 	constructor (props) {
 		super(props);
 		this.state = {
+			// 邮箱value
 			mail:'',
+			// 密码value
+			password:'',
+			// 邮箱域名后缀 自定义邮箱时为空串
 			option: '@qq.com',
+			// 验证码value
 			verificationCode: '',
+			// 邮箱Input获取焦点？
 			mailInputIsIn: false,
-			passwordInputIsIn: false
+			// 密码Input获取焦点？
+			passwordInputIsIn: false,
+			// 可以发送验证码？
+			isSendVCode: false,
+			// 下次验证码倒计时
+			sendVCodeTime: 0,
+			// 邮箱验证通过？
+			isInputInfo: false,
+			// 注册步骤状态
+			stepStatus: 'process',
+			fontAnimateState: false
 		};
 	}
-	// 完成邮箱验证
+	// 更新发送验证码次数
+	updateSendCount () {
+		// 获取当前日期对象
+		const nowDate = new Date();
+		// 将当前日期调整到当日凌晨00:00:00 秒
+		nowDate.setHours(0);
+		nowDate.setMinutes(0);
+		nowDate.setSeconds(0);
+		// 获取从现在到明天的秒数
+		const secondsTomorrow = Math.floor((86400000 - (Date.now() - nowDate.getTime())) / 1000)
+		Cookie.set("SEND_VCODE_COUNT", JSON.stringify({
+			count: this.sendVCodeCount,
+		}), secondsTomorrow);
+	}
+	/**
+	 * 验证码timer
+	 * @param {*} _time 验证码秒数
+	 */
+	initSendVCodeTimer (_time) {
+		this.setState({
+			isSendVCode: true,
+			sendVCodeTime: _time,
+		}, () => {
+			this.sendVCodeTimer = window.setInterval(() => {
+				if (this.state.sendVCodeTime === 0) {
+					this.setState({
+						isSendVCode: false
+					});
+					window.clearInterval(this.sendVCodeTimer);
+				} else {
+					this.setState({
+						sendVCodeTime: this.state.sendVCodeTime - 1,
+					});
+				}
+			}, 1000);
+		});
+	}
+	// componentWillMount () {
+	// 	// 拦截判断是否离开当前页面
+	// 	window.addEventListener('beforeunload', this.beforeunload);
+	//   }
+	// componentWillUnmount () {
+	// 	// 销毁拦截判断是否离开当前页面
+	// 	window.removeEventListener('beforeunload', this.beforeunload);
+	// }
+	// beforeunload (e) {
+	// 	let confirmationMessage = '你确定离开此页面吗?';
+	// 	(e || window.event).returnValue = confirmationMessage;
+	// 	return confirmationMessage;
+	//   }
+	componentDidMount() {
+		const sendCount = Cookie.get("SEND_VCODE_COUNT");
+		// 发送次数cookie 如果不存在就创建一个 
+		if (sendCount !== undefined)
+			this.sendVCodeCount = JSON.parse(sendCount).count;
+		else // 如果存在就更新次数
+			this.updateSendCount();
+		if (Cookie.get("VCODE") !== undefined) {
+			const time = Math.floor((parseInt(JSON.parse(Cookie.get("VCODE")).time) - Date.now()) / 1000);
+			this.initSendVCodeTimer(time);
+		} else {
+			this.setState({
+				isSendVCode: false
+			});
+		}
+		// 注册进度还原
+		this.props.setRegisterCurrent(0);
+		// navBar状态设置为register
+		this.props.setNavState("register");
+	}
+
+	// 发送验证码 ==> 有请求
+	handleSendVerificationCode = () => {
+		// 合并邮箱前缀 和后缀  （注意自定义模式下 后缀为空串）
+		const email = this.state.mail + this.state.option;
+		console.log("提交的邮箱----->" + email);
+		const sendTime = ++ this.sendVCodeCount < 3 ? 60 : 120;
+		this.updateSendCount()
+		Cookie.set("VCODE", JSON.stringify({ time: Date.now() + sendTime * 1000 }), sendTime);
+		this.initSendVCodeTimer(sendTime);
+	};
+	// 验证邮箱 ==> 有请求
 	handleToNextClick = () => {
+		message.success("验证成功");
 		this.props.setRegisterCurrent(1);
 	};
+	// 提交个人资料完成注册 ==> 有请求
+	finishRegister = () => {
+		this.setState({
+			stepStatus: 'finish'
+		}, () => this.props.setRegisterCurrent(2));
+	};
+	// 以下四个方法均为邮箱与密码的表单的获取/失去焦点 
 	handleMailInputFocus = () => {
 		this.setState({ mailInputIsIn: true });
 	};
@@ -151,12 +270,9 @@ class Register extends React.Component {
 	handlePasswordInputBlur = () => {
 		this.setState({ passwordInputIsIn: false });
 	};
-	handleVerificationCodeInput = event => {
-		this.setState({
-			verificationCode: event.target.value.replace(/[^0-9]/img, '')
-		})
-	};
-	handleMailChange = event => {
+
+	// 邮箱InputChanged
+	handleMailInputChange = event => {
 		this.setState({
 			mail: Util.filter('@', event.target.value.replace(/[^0-9a-zA-Z_@.]/img, '')),
 		}, () => {
@@ -166,6 +282,17 @@ class Register extends React.Component {
 				this.setState({ option: this.prevMail });
 		});
 	};
+	// 密码Input Changed
+	handlePasswordInputChanged = event => {
+		this.setState({password: event.target.value.replace(/[^0-9a-zA-Z.]/img, '')});
+	}
+	// 验证码Input Changed
+	handleVerificationCodeInputChanged = event => {
+		this.setState({
+			verificationCode: event.target.value.replace(/[^0-9]/img, '')
+		});
+	};
+	// 邮箱下拉菜单 Changed
 	handleMailInputSelectChange = (option) => {
 		if (this.state.mail.indexOf('@') !== -1)
 			this.setState({ mail: this.state.mail.substring(0, this.state.mail.indexOf('@')) });
@@ -173,32 +300,45 @@ class Register extends React.Component {
 			option,
 		}, () => { this.prevMail = option; })
 	};
+	// 返回主页
 	handleNavBarClickBreakHome = () => {
-		this.props.history.push('/');
+		this.props.history.push("/");
 	};
+	// 鼠标移入导航栏 ==> 加样式
 	handleNavBarMouseEnter = () => {
 		this.timer = new Date().getTime();
 		this.mask.style = 'z-index:800;background:rgba(110, 110, 110, .6);';
 		this.registerContent.style = "z-index:-1;box-shadow: 0 3px 10px #BBBBBB;opacity:.5";
 	};
+	// 鼠标移出导航栏 ==> 样式还原
 	handleNavBarMouseLeave = () => {
-		console.log(new Date().getTime() - this.timer);
 		this.mask.style = "";
 		window.setTimeout(() => {
 			this.registerContent.style = "";
 		}, (new Date().getTime() - this.timer) > 700 ? 700 : new Date().getTime() - this.timer);
 	};
+	// 页面离开拦截
+	handleOnLeave = () => {
+		if (this.state.mail !== '' || this.state.password !== '' || this.state.verificationCode !== '') 
+			return window.confirm("如果现离开页面，你输入的数据将不会保存！你确定要离开页面？");
+		return true;
+	};
+	
 }
 export default connect(
+	// redux 属性 ==> props
 	({ navBar, register }) => {
 		return {
 			navState: navBar,
 			register: register
 		}
 	},
+	// redux 操作 ==> props
 	(dispatch) => {
 		return {
+			// 设置页面路由状态
 			setNavState: data => { dispatch(Action.setNavState(data)) },
+			// 设置注册进度 0： 验证邮箱 1： 设置个人资料 2： 注册结果反馈
 			setRegisterCurrent: data => { dispatch(Action.setRegisterCurrent(data)) }
 		}
 	}

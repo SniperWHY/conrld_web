@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5752dee9-e0d1-42b0-a2bb-a30318c1c752" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/config/FontAnimation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/register.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Register.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +105,10 @@
       <workItem from="1567647353562" duration="10391000" />
       <workItem from="1567665484863" duration="6358000" />
       <workItem from="1567734125297" duration="27341000" />
-      <workItem from="1567779946222" duration="5483000" />
+      <workItem from="1567779946222" duration="5650000" />
+      <workItem from="1567842399871" duration="385000" />
+      <workItem from="1568016630295" duration="211000" />
+      <workItem from="1568100820435" duration="8875000" />
     </task>
     <servers />
   </component>
