@@ -1,0 +1,34 @@
+.portrait_upload {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    margin: 12px;
+    .avatar-uploader{
+        .ant-upload {
+            width: 100px;
+            height: 100px;
+            margin: 0;
+            .ant-upload {
+                position: relative;
+                .close {
+                    position: absolute;
+                    width: 14px;
+                    height: 14px;
+                    box-sizing: content-box;
+                    padding: 2px;
+                    background: rgba(200, 200, 200, .5);
+                    line-height: 14px;
+                    border-radius: 50%;
+                    top: 0;
+                    right: 0;
+                    transform: translate(50%, -50%);
+                    transition: all 500ms ease-in-out;
+                }
+                .close:hover {
+                    background: rgba(100, 100, 100, .5);
+                    color: white;
+                }
+            }
+        }
+    }
+}

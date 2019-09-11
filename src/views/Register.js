@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	withRouter,
-	Prompt
+	Prompt,
 } from 'react-router-dom';
 import * as Action from "../action";
 import Texty from 'rc-texty';
@@ -13,17 +13,19 @@ import {
 	Input,
 	Tooltip,
 	message,
-	Button
+	Button,
 } from 'antd';
 import MailOption from '../components/MailOption';
 import TweenOne from 'rc-tween-one';
 import Slider from "../components/Slider";
+import PortraitUpload from '../components/PortraitUpload';
 import Util from '../tools';
+import * as Api from '../api';
 import {
 	getEnter,
 	getEnter_Title,
 	getInterval_Title,
-	componentProps_Title
+	componentProps_Title,
 } from "../config/FontAnimation";
 
 import '../styles/register.scss';
@@ -35,7 +37,6 @@ class Register extends React.Component {
 	prevMail = '@qq.com';
 	sendVCodeCount = 0;
 	render() {
-		console.log(this.props);
 		return (
 			<div className='register'>
 				<Prompt message={this.handleOnLeave} />
@@ -46,11 +47,11 @@ class Register extends React.Component {
 					<div className='title'>
 						<div className='title_head'>
 							<Texty
-								delay={ 400 }
-								enter={ getEnter_Title }
-								interval={ getInterval_Title }
-								component={ TweenOne }
-								componentProps={ componentProps_Title }
+								delay={400}
+								enter={getEnter_Title}
+								interval={getInterval_Title}
+								component={TweenOne}
+								componentProps={componentProps_Title}
 							>创建Conrld ID</Texty>
 						</div>
 					</div>
@@ -59,9 +60,9 @@ class Register extends React.Component {
 				</div>
 				<div className='register_content' ref={registerContent => this.registerContent = registerContent}>
 					<h1 className='header'>
-						<div className='text_box' style={this.props.register.current === 0 ? { opacity: '1' } : {}}><Texty delay={ 200 } duration={600} enter={getEnter} interval={1}>{this.props.register.current === 0 ? '验证邮箱' : ""}</Texty></div>
-						<div className='text_box' style={this.props.register.current === 1 ? { opacity: '1' } : {}}><Texty delay={ 200 } duration={600} enter={getEnter} interval={1}>{this.props.register.current === 1 ? '编辑资料' : ""}</Texty></div>
-						<div className='text_box' style={this.props.register.current === 2 ? { opacity: '1' } : {}}><Texty delay={ 200 } duration={600} enter={getEnter} interval={1}>{this.props.register.current === 2 ? '完成创建' : ""}</Texty></div>
+						<div className='text_box' style={this.props.register.current === 0 ? { opacity: '1' } : {}}><Texty delay={200} duration={600} enter={getEnter} interval={1}>{this.props.register.current === 0 ? '验证邮箱' : ""}</Texty></div>
+						<div className='text_box' style={this.props.register.current === 1 ? { opacity: '1' } : {}}><Texty delay={200} duration={600} enter={getEnter} interval={1}>{this.props.register.current === 1 ? '编辑资料' : ""}</Texty></div>
+						<div className='text_box' style={this.props.register.current === 2 ? { opacity: '1' } : {}}><Texty delay={200} duration={600} enter={getEnter} interval={1}>{this.props.register.current === 2 ? '完成创建' : ""}</Texty></div>
 					</h1>
 					<Steps current={this.props.register.current} status={this.state.stepStatus}>
 						<Steps.Step title={this.props.register.current !== 0 ? '已验证' : '验证邮箱'} icon={this.props.register.current !== 0 ? <Icon type='check-circle' style={{ color: 'green' }} /> : <Icon type='mail' />} />
@@ -69,7 +70,7 @@ class Register extends React.Component {
 						<Steps.Step title='注册完成' icon={(this.state.stepStatus === 'finish' && this.props.register.current === 2) ? <Icon type="check-circle" style={{ color: 'green' }} /> : <Icon type="check-circle" />} />
 					</Steps>
 					<div className='register_step'>
-						<QueueAnim delay={ 200 } className='animate_context' animConfig={
+						<QueueAnim delay={200} className='animate_context' animConfig={
 							[
 								{ opacity: [1, 0], translateY: [0, 50] },
 								{ opacity: [1, 0], translateY: [0, -50] }
@@ -125,7 +126,7 @@ class Register extends React.Component {
 											<div className='send_vcode_group'>
 												<Tooltip
 													trigger={['focus']}
-													title={"验证码为六位数字"}
+													title={"验证码由长度6位的数字与字母组成"}
 													placement="topLeft"
 													overlayClassName="numeric-input">
 													<Input
@@ -151,13 +152,13 @@ class Register extends React.Component {
 									</div>
 								) : (this.props.register.current === 1 ? (
 									<div className='edit_register_info' ref={ref => this.editRegisterInfoEl = ref} key={'current_2'}>
-										<Input type='text' />
+										<PortraitUpload />
 										<Button className='register_submit' onClick={this.finishRegister} type='primary'>提交</Button>
 									</div>
 								) : (
 										<div className='register_finish' ref={ref => this.registerFinishEl = ref} key={'current_3'}>
 											注册完成
-									</div>
+										</div>
 									))
 							}
 						</QueueAnim>
@@ -241,7 +242,7 @@ class Register extends React.Component {
 		nowDate.setMinutes(0);
 		nowDate.setSeconds(0);
 		// 获取从现在到明天的秒数
-		const secondsTomorrow = Math.floor((86400000 - (Date.now() - nowDate.getTime())) / 1000)
+		const secondsTomorrow = Math.floor((86400000 - (Date.now() - nowDate.getTime())) / 1000);
 		Cookie.set("SEND_VCODE_COUNT", JSON.stringify({
 			count: this.sendVCodeCount,
 		}), secondsTomorrow);
@@ -273,11 +274,17 @@ class Register extends React.Component {
 	handleSendVerificationCode = () => {
 		// 合并邮箱前缀 和后缀  （注意自定义模式下 后缀为空串）
 		const email = this.state.mail + this.state.option;
-		console.log("提交的邮箱----->" + email);
-		const sendTime = ++this.sendVCodeCount < 3 ? 60 : 120;
-		this.updateSendCount()
-		Cookie.set("VCODE", JSON.stringify({ time: Date.now() + sendTime * 1000 }), sendTime);
-		this.initSendVCodeTimer(sendTime);
+		Api.getCaptcha(email).then(({data}) => {
+			if (data === 'USER_OPERATION_SUCCESSFUL') {
+				message.success("验证码发送已发送 请查收！");
+				const sendTime = ++ this.sendVCodeCount < 3 ? 60 : 120;
+				this.updateSendCount()
+				Cookie.set("VCODE", JSON.stringify({ time: Date.now() + sendTime * 1000 }), sendTime);
+				this.initSendVCodeTimer(sendTime);
+			} else {
+				message.error("验证码发送失败" + data);
+			}
+		})
 	};
 	// 验证邮箱 ==> 有请求
 	handleToNextClick = () => {
@@ -321,7 +328,7 @@ class Register extends React.Component {
 	// 验证码Input Changed
 	handleVerificationCodeInputChanged = event => {
 		this.setState({
-			verificationCode: event.target.value.replace(/[^0-9]/img, '')
+			verificationCode: event.target.value.replace(/[^0-9a-zA-Z]/img, '')
 		});
 	};
 	// 邮箱下拉菜单 Changed

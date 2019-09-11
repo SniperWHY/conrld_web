@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.23.0",
+    "antd-img-crop": "^2.1.2",
     "cookie": "^0.4.0",
     "cookies": "^0.7.3",
     "for-editor": "^0.3.4",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "antd": "^3.23.0",
+    "antd-img-crop": "^2.1.2",
     "cookie": "^0.4.0",
     "cookies": "^0.7.3",
     "for-editor": "^0.3.4",
@@ -57,5 +59,6 @@
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.4",
     "uuid": "^3.3.3"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }
