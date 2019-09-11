@@ -1,23 +1,34 @@
 import React from 'react';
-import { withRouter,
-	 	 Prompt } from 'react-router-dom';
+import {
+	withRouter,
+	Prompt
+} from 'react-router-dom';
 import * as Action from "../action";
 import Texty from 'rc-texty';
+import QueueAnim from 'rc-queue-anim';
 import { connect } from 'react-redux';
-import { Steps,
-		 Icon,
-		 Input,
-		 Tooltip,
-		 message,
-		 Button } from 'antd';
+import {
+	Steps,
+	Icon,
+	Input,
+	Tooltip,
+	message,
+	Button
+} from 'antd';
 import MailOption from '../components/MailOption';
+import TweenOne from 'rc-tween-one';
 import Slider from "../components/Slider";
 import Util from '../tools';
-import { getEnter } from "../config/FontAnimation";
+import {
+	getEnter,
+	getEnter_Title,
+	getInterval_Title,
+	componentProps_Title
+} from "../config/FontAnimation";
 
 import '../styles/register.scss';
 
-const Cookie  = new Util.Cookies();
+const Cookie = new Util.Cookies();
 const { Password } = Input;
 
 class Register extends React.Component {
@@ -27,125 +38,142 @@ class Register extends React.Component {
 		console.log(this.props);
 		return (
 			<div className='register'>
-				<Prompt message={ this.handleOnLeave } />
-				<div className='nav' onMouseLeave={ this.handleNavBarMouseLeave } onMouseEnter={ this.handleNavBarMouseEnter } onClick={ this.handleNavBarClickBreakHome }>
+				<Prompt message={this.handleOnLeave} />
+				<div className='nav'>
 					<div className='logo'>
 						Conrld_Logo
 					</div>
 					<div className='title'>
-						<p className='title_head'>创建Conrld ID</p>
-						<p className='title_tips'>点击返回主页</p>
+						<div className='title_head'>
+							<Texty
+								delay={ 400 }
+								enter={ getEnter_Title }
+								interval={ getInterval_Title }
+								component={ TweenOne }
+								componentProps={ componentProps_Title }
+							>创建Conrld ID</Texty>
+						</div>
 					</div>
-					<Slider className="track"/>
+					<Slider className="track" />
+					<p className='title_tips'><span onClick={this.handleNavBarClickBreakHome}>点击此处返回</span></p>
 				</div>
-				<div className='register_content' ref={ registerContent => this.registerContent = registerContent }>
+				<div className='register_content' ref={registerContent => this.registerContent = registerContent}>
 					<h1 className='header'>
-						<div className='text_box1' style={this.props.register.current === 0 ? {} : {opacity: '0'}}><Texty duration={ 900 } enter={ getEnter } interval={ 1 }>{ this.props.register.current === 0 ? '验证邮箱' : "" }</Texty></div>
-						<div className='text_box2' style={this.props.register.current === 1 ? {} : {opacity: '0'}}><Texty duration={ 900 } enter={ getEnter } interval={ 1 }>{ this.props.register.current === 1 ? '编辑资料' : "" }</Texty></div>
-						<div className='text_box2' style={this.props.register.current === 2 ? {} : {opacity: '0'}}><Texty duration={ 900 } enter={ getEnter } interval={ 1 }>{ this.props.register.current === 2 ? '完成创建' : "" }</Texty></div>
+						<div className='text_box' style={this.props.register.current === 0 ? { opacity: '1' } : {}}><Texty delay={ 200 } duration={600} enter={getEnter} interval={1}>{this.props.register.current === 0 ? '验证邮箱' : ""}</Texty></div>
+						<div className='text_box' style={this.props.register.current === 1 ? { opacity: '1' } : {}}><Texty delay={ 200 } duration={600} enter={getEnter} interval={1}>{this.props.register.current === 1 ? '编辑资料' : ""}</Texty></div>
+						<div className='text_box' style={this.props.register.current === 2 ? { opacity: '1' } : {}}><Texty delay={ 200 } duration={600} enter={getEnter} interval={1}>{this.props.register.current === 2 ? '完成创建' : ""}</Texty></div>
 					</h1>
-					<Steps current={ this.props.register.current } status={ this.state.stepStatus }>
-						<Steps.Step title={ this.props.register.current !== 0 ? '已验证' : '验证邮箱' } icon={ this.props.register.current !== 0 ? <Icon type='check-circle' style={{color: 'green'}} />: <Icon type='mail' /> } />
-						<Steps.Step title={ this.props.register.current === 2 ? '已验证' : '填写资料'} icon={  this.props.register.current === 2 ? <Icon type='check-circle' style={{color: 'green'}} /> : <Icon type="form" /> }/>
-						<Steps.Step title='注册完成' icon={ (this.state.stepStatus === 'finish' && this.props.register.current === 2) ? <Icon type="check-circle" style={{color: 'green'}} /> : <Icon type="check-circle" /> } />
+					<Steps current={this.props.register.current} status={this.state.stepStatus}>
+						<Steps.Step title={this.props.register.current !== 0 ? '已验证' : '验证邮箱'} icon={this.props.register.current !== 0 ? <Icon type='check-circle' style={{ color: 'green' }} /> : <Icon type='mail' />} />
+						<Steps.Step title={this.props.register.current === 2 ? '已验证' : '填写资料'} icon={this.props.register.current === 2 ? <Icon type='check-circle' style={{ color: 'green' }} /> : <Icon type="form" />} />
+						<Steps.Step title='注册完成' icon={(this.state.stepStatus === 'finish' && this.props.register.current === 2) ? <Icon type="check-circle" style={{ color: 'green' }} /> : <Icon type="check-circle" />} />
 					</Steps>
 					<div className='register_step'>
-						{
-							this.props.register.current === 0 ? (
-								<div className='v_mail'>
-									<Tooltip
-										trigger={['focus']}
-										title={ "邮箱且长度保持在5-20(不包括邮箱域名)" }
-										placement="topLeft"
-										overlayClassName="numeric-input">
-										<Input
-											ref={ mailInput => this.mailInput = mailInput }
-											type='text'
-											onFocus={ this.handleMailInputFocus }
-											onBlur={ this.handleMailInputBlur }
-											placeholder='邮箱...'
-											maxLength={ 20 }
-											prefix={ <Icon type='mail' style={ this.state.mailInputIsIn ? { color: 'rgb(24, 144, 255)' } : { color: 'rgba(0, 0, 0, .25)' }} /> }
-										size='large'
-										addonAfter={ <MailOption defaultValue={ '@qq.com' } value={ this.state.option } onSelect={ this.handleMailInputSelectChange }/> }
-										value={ this.state.mail }
-										onChange={ this.handleMailInputChange }
-										/>
-									</Tooltip>
-									<div className='register_v_p'>
+						<QueueAnim delay={ 200 } className='animate_context' animConfig={
+							[
+								{ opacity: [1, 0], translateY: [0, 50] },
+								{ opacity: [1, 0], translateY: [0, -50] }
+							]
+						} style={
+							this.props.register.current === 0 ? { height: `${this.state.VMailElHeight}px` } : (
+								this.props.register.current === 1 ?
+									{ height: `${this.state.editRegisterInfoElHeight}px` }
+									: { height: `${this.state.registerFinishElHeight}px` }
+							)
+						}>
+							{
+								this.props.register.current === 0 ? (
+									<div className='v_mail' ref={ref => this.VMailEl = ref} key={'current_1'}>
 										<Tooltip
 											trigger={['focus']}
-											title={ "密码(不允许出现特殊字符),长度保持在8-15位" }
+											title={"邮箱且长度保持在5-20(不包括邮箱域名)"}
 											placement="topLeft"
 											overlayClassName="numeric-input">
-											<Password
-												type='password'
-												placeholder='密码...'
-												onFocus={ this.handlePasswordInputFocus }
-												onBlur={ this.handlePasswordInputBlur }
-												prefix={ <Icon type="key" style={ this.state.passwordInputIsIn ? { color: 'rgb(24, 144, 255)' } : { color: 'rgba(0, 0, 0, .25)' }} /> }
-												onChange={ this.handlePasswordInputChanged }
+											<Input
+												ref={mailInput => this.mailInput = mailInput}
+												type='text'
+												onFocus={this.handleMailInputFocus}
+												onBlur={this.handleMailInputBlur}
+												placeholder='邮箱...'
+												maxLength={20}
+												prefix={<Icon type='mail' style={this.state.mailInputIsIn ? { color: 'rgb(24, 144, 255)' } : { color: 'rgba(0, 0, 0, .25)' }} />}
 												size='large'
-												maxLength={ 20 }
-												visibilityToggle={ true }
-												value={ this.state.password }
-												style={{ marginRight: '20px' }} />
+												addonAfter={<MailOption defaultValue={'@qq.com'} value={this.state.option} onSelect={this.handleMailInputSelectChange} />}
+												value={this.state.mail}
+												onChange={this.handleMailInputChange}
+											/>
 										</Tooltip>
-										<div className='send_vcode_group'>
+										<div className='register_v_p'>
 											<Tooltip
 												trigger={['focus']}
-												title={ "验证码为六位数字" }
+												title={"密码(不允许出现特殊字符),长度保持在8-15位"}
 												placement="topLeft"
 												overlayClassName="numeric-input">
-												<Input
-													type='text'
-													placeholder='验证码'
+												<Password
+													type='password'
+													placeholder='密码...'
+													onFocus={this.handlePasswordInputFocus}
+													onBlur={this.handlePasswordInputBlur}
+													prefix={<Icon type="key" style={this.state.passwordInputIsIn ? { color: 'rgb(24, 144, 255)' } : { color: 'rgba(0, 0, 0, .25)' }} />}
+													onChange={this.handlePasswordInputChanged}
 													size='large'
-													value={ this.state.verificationCode }
-													onChange={ this.handleVerificationCodeInputChanged }
-													maxLength={ 6 }
-													className='register_vcode' />
+													maxLength={20}
+													visibilityToggle={true}
+													value={this.state.password}
+													style={{ marginRight: '20px' }} />
 											</Tooltip>
-											<Button
-												type='primary'
-												size='large'
-												disabled={ this.state.isSendVCode }
-												onClick={ this.handleSendVerificationCode }
-												className='register_send_vcode'>{ this.state.isSendVCode ? `重新发送(${
-													(this.state.sendVCodeTime + "").length === 1 ? "0" + this.state.sendVCodeTime : this.state.sendVCodeTime
-													})` : '发送验证码' }</Button>
+											<div className='send_vcode_group'>
+												<Tooltip
+													trigger={['focus']}
+													title={"验证码为六位数字"}
+													placement="topLeft"
+													overlayClassName="numeric-input">
+													<Input
+														type='text'
+														placeholder='验证码'
+														size='large'
+														value={this.state.verificationCode}
+														onChange={this.handleVerificationCodeInputChanged}
+														maxLength={6}
+														className='register_vcode' />
+												</Tooltip>
+												<Button
+													type='primary'
+													size='large'
+													disabled={this.state.isSendVCode}
+													onClick={this.handleSendVerificationCode}
+													className='register_send_vcode'>{this.state.isSendVCode ? `重新发送(${
+														(this.state.sendVCodeTime + "").length === 1 ? "0" + this.state.sendVCodeTime : this.state.sendVCodeTime
+														})` : '发送验证码'}</Button>
+											</div>
 										</div>
+										<Button className='to_next' size='large' type='primary' onClick={this.handleToNextClick}>下一步</Button>
 									</div>
-									<Button className='to_next' size='large' type='primary' onClick={ this.handleToNextClick }>下一步</Button>
-								</div>
-							) : (
-								this.props.register.current === 1 ? (
-									<div className='edit_register_info'>
-										填写信息
-										<Button onClick={ this.finishRegister } type='primary'>完成注册</Button>
+								) : (this.props.register.current === 1 ? (
+									<div className='edit_register_info' ref={ref => this.editRegisterInfoEl = ref} key={'current_2'}>
+										<Input type='text' />
+										<Button className='register_submit' onClick={this.finishRegister} type='primary'>提交</Button>
 									</div>
 								) : (
-									this.props.register.current === 2 ? (
-										<div className='register_ok'>
+										<div className='register_finish' ref={ref => this.registerFinishEl = ref} key={'current_3'}>
 											注册完成
-										</div>
-									) : Error("current exception")
-								)
-							)
-						}
+									</div>
+									))
+							}
+						</QueueAnim>
 					</div>
 				</div>
-				<div className='mask' ref={ mask => this.mask = mask } />
 			</div>
 		)
 	}
-	constructor (props) {
+
+	constructor(props) {
 		super(props);
 		this.state = {
 			// 邮箱value
-			mail:'',
+			mail: '',
 			// 密码value
-			password:'',
+			password: '',
 			// 邮箱域名后缀 自定义邮箱时为空串
 			option: '@qq.com',
 			// 验证码value
@@ -162,54 +190,23 @@ class Register extends React.Component {
 			isInputInfo: false,
 			// 注册步骤状态
 			stepStatus: 'process',
-			fontAnimateState: false
+			// 验证邮箱容器高度
+			VMailElHeight: 160,
+			// 编辑资料容器高度
+			editRegisterInfoElHeight: 130,
+			// 注册完成容器高度
+			registerFinishElHeight: 30
 		};
 	}
-	// 更新发送验证码次数
-	updateSendCount () {
-		// 获取当前日期对象
-		const nowDate = new Date();
-		// 将当前日期调整到当日凌晨00:00:00 秒
-		nowDate.setHours(0);
-		nowDate.setMinutes(0);
-		nowDate.setSeconds(0);
-		// 获取从现在到明天的秒数
-		const secondsTomorrow = Math.floor((86400000 - (Date.now() - nowDate.getTime())) / 1000)
-		Cookie.set("SEND_VCODE_COUNT", JSON.stringify({
-			count: this.sendVCodeCount,
-		}), secondsTomorrow);
+	componentWillMount() {
+		// 拦截判断是否离开当前页面
+		// window.addEventListener('beforeunload', this.beforeunload);
 	}
-	/**
-	 * 验证码timer
-	 * @param {*} _time 验证码秒数
-	 */
-	initSendVCodeTimer (_time) {
-		this.setState({
-			isSendVCode: true,
-			sendVCodeTime: _time,
-		}, () => {
-			this.sendVCodeTimer = window.setInterval(() => {
-				if (this.state.sendVCodeTime === 0) {
-					this.setState({
-						isSendVCode: false
-					});
-					window.clearInterval(this.sendVCodeTimer);
-				} else {
-					this.setState({
-						sendVCodeTime: this.state.sendVCodeTime - 1,
-					});
-				}
-			}, 1000);
-		});
+	componentWillUnmount() {
+		this.props.setRegisterCurrent(0);
+		// 销毁拦截判断是否离开当前页面
+		// window.removeEventListener('beforeunload', this.beforeunload);
 	}
-	// componentWillMount () {
-	// 	// 拦截判断是否离开当前页面
-	// 	window.addEventListener('beforeunload', this.beforeunload);
-	//   }
-	// componentWillUnmount () {
-	// 	// 销毁拦截判断是否离开当前页面
-	// 	window.removeEventListener('beforeunload', this.beforeunload);
-	// }
 	// beforeunload (e) {
 	// 	let confirmationMessage = '你确定离开此页面吗?';
 	// 	(e || window.event).returnValue = confirmationMessage;
@@ -235,13 +232,49 @@ class Register extends React.Component {
 		// navBar状态设置为register
 		this.props.setNavState("register");
 	}
-
+	// 更新发送验证码次数
+	updateSendCount() {
+		// 获取当前日期对象
+		const nowDate = new Date();
+		// 将当前日期调整到当日凌晨00:00:00 秒
+		nowDate.setHours(0);
+		nowDate.setMinutes(0);
+		nowDate.setSeconds(0);
+		// 获取从现在到明天的秒数
+		const secondsTomorrow = Math.floor((86400000 - (Date.now() - nowDate.getTime())) / 1000)
+		Cookie.set("SEND_VCODE_COUNT", JSON.stringify({
+			count: this.sendVCodeCount,
+		}), secondsTomorrow);
+	}
+	/**
+	 * 验证码timer
+	 * @param {*} _time 验证码秒数
+	 */
+	initSendVCodeTimer(_time) {
+		this.setState({
+			isSendVCode: true,
+			sendVCodeTime: _time,
+		}, () => {
+			this.sendVCodeTimer = window.setInterval(() => {
+				if (this.state.sendVCodeTime === 0) {
+					this.setState({
+						isSendVCode: false
+					});
+					window.clearInterval(this.sendVCodeTimer);
+				} else {
+					this.setState({
+						sendVCodeTime: this.state.sendVCodeTime - 1,
+					});
+				}
+			}, 1000);
+		});
+	}
 	// 发送验证码 ==> 有请求
 	handleSendVerificationCode = () => {
 		// 合并邮箱前缀 和后缀  （注意自定义模式下 后缀为空串）
 		const email = this.state.mail + this.state.option;
 		console.log("提交的邮箱----->" + email);
-		const sendTime = ++ this.sendVCodeCount < 3 ? 60 : 120;
+		const sendTime = ++this.sendVCodeCount < 3 ? 60 : 120;
 		this.updateSendCount()
 		Cookie.set("VCODE", JSON.stringify({ time: Date.now() + sendTime * 1000 }), sendTime);
 		this.initSendVCodeTimer(sendTime);
@@ -270,7 +303,6 @@ class Register extends React.Component {
 	handlePasswordInputBlur = () => {
 		this.setState({ passwordInputIsIn: false });
 	};
-
 	// 邮箱InputChanged
 	handleMailInputChange = event => {
 		this.setState({
@@ -284,7 +316,7 @@ class Register extends React.Component {
 	};
 	// 密码Input Changed
 	handlePasswordInputChanged = event => {
-		this.setState({password: event.target.value.replace(/[^0-9a-zA-Z.]/img, '')});
+		this.setState({ password: event.target.value.replace(/[^0-9a-zA-Z.]/img, '') });
 	}
 	// 验证码Input Changed
 	handleVerificationCodeInputChanged = event => {
@@ -304,26 +336,12 @@ class Register extends React.Component {
 	handleNavBarClickBreakHome = () => {
 		this.props.history.push("/");
 	};
-	// 鼠标移入导航栏 ==> 加样式
-	handleNavBarMouseEnter = () => {
-		this.timer = new Date().getTime();
-		this.mask.style = 'z-index:800;background:rgba(110, 110, 110, .6);';
-		this.registerContent.style = "z-index:-1;box-shadow: 0 3px 10px #BBBBBB;opacity:.5";
-	};
-	// 鼠标移出导航栏 ==> 样式还原
-	handleNavBarMouseLeave = () => {
-		this.mask.style = "";
-		window.setTimeout(() => {
-			this.registerContent.style = "";
-		}, (new Date().getTime() - this.timer) > 700 ? 700 : new Date().getTime() - this.timer);
-	};
 	// 页面离开拦截
 	handleOnLeave = () => {
-		if (this.state.mail !== '' || this.state.password !== '' || this.state.verificationCode !== '') 
+		if (this.state.mail !== '' || this.state.password !== '' || this.state.verificationCode !== '')
 			return window.confirm("如果现离开页面，你输入的数据将不会保存！你确定要离开页面？");
 		return true;
 	};
-	
 }
 export default connect(
 	// redux 属性 ==> props
