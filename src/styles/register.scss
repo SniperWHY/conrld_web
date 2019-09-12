@@ -18,7 +18,7 @@
             height: 42px;
             position: relative;
             .text_box {
-                width: 112px;
+                width: 130px;
                 height: 42px;
                 position: absolute;
                 top: 0;
@@ -42,20 +42,19 @@
                     width: 100%;
                 }
                 .v_mail {
-                    .register_v_p {
-                        display: flex;
+                    .send_vcode_group {
                         margin-top: 20px;
-                        .send_vcode_group {
-                            display: flex;
-                            .register_vcode {
-                                width: 85px;
-                                border-top-right-radius: 0;
-                                border-bottom-right-radius: 0;
-                            }
-                            .register_send_vcode {
-                                border-top-left-radius: 0;
-                                border-bottom-left-radius: 0;
-                            }
+                        display: flex;
+                        width: 100%;
+                        .register_vcode {
+                            flex: 1;
+                            border-top-right-radius: 0;
+                            border-bottom-right-radius: 0;
+                        }
+                        .register_send_vcode {
+                            border-left: none;
+                            border-top-left-radius: 0;
+                            border-bottom-left-radius: 0;
                         }
                     }
                     .to_next {
@@ -64,6 +63,17 @@
                     }
                 }
                 .edit_register_info {
+                    .register_info_top {
+                        display: flex;
+                        justify-content: space-between;
+                        .register_info_top_input {
+                            flex: 1;
+                        }
+                        .upload {
+                            transform: translate(12px,-12px)
+                        }
+                    }
+                    
                     .register_submit {
                         width: 100%;
                     }
@@ -121,7 +131,7 @@
             span {
                 transition: all 400ms ease-in-out;
                 cursor: pointer;
-                color: #025fb6;
+                color: #0586ff;
             }
         }
         .track {
@@ -138,7 +148,7 @@
             opacity: 1;
             transform: translateX(-50%);
             span:hover {
-                color: #1890ff;
+                color: #61b0fa;
             }
         }
         &>.title {

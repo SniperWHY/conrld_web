@@ -10,23 +10,30 @@
             margin: 0;
             .ant-upload {
                 position: relative;
-                .close {
+                .delete_photo {
                     position: absolute;
-                    width: 14px;
-                    height: 14px;
+                    width: 98px;
+                    height: 98px;
                     box-sizing: content-box;
-                    padding: 2px;
+                    border-radius: 4px;
                     background: rgba(200, 200, 200, .5);
-                    line-height: 14px;
-                    border-radius: 50%;
-                    top: 0;
-                    right: 0;
-                    transform: translate(50%, -50%);
-                    transition: all 500ms ease-in-out;
-                }
-                .close:hover {
-                    background: rgba(100, 100, 100, .5);
-                    color: white;
+                    top: 0%;
+                    right: 0%;
+                    .delete {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        background: rgba(150, 150, 150, .5);                        
+                        transform: translate(-50%, -50%);
+                        padding: 8px;
+                        color: #777777;
+                        border-radius: 50%;
+                        transition: all 500ms ease-in-out;
+                    }
+                    .delete:hover {
+                        color: rgb(200, 200, 200);
+                        background: #777777;
+                    }
                 }
             }
         }

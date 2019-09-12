@@ -16,7 +16,7 @@ class PortraitUpload extends React.Component {
             </div>
         );
         return (
-            <div className='portrait_upload'>
+            <div className='portrait_upload' onMouseEnter={ this.handleMouseEnter } onMouseLeave={ this.handleMouseLeave }>
                 <ImgCrop>
                     <Upload
                         name="avatar"
@@ -29,9 +29,11 @@ class PortraitUpload extends React.Component {
                     >
                         { this.state.imageUrl && this.state.uploaded ? <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton }
                         {
-                            this.state.uploaded && 
-                            <div className='close' onClick={ this.removeUpload }>
-                                <Icon type="close" style={{ fontSize: '12px' }} />
+                            this.state.uploaded && this.state.onMouse &&
+                            <div className='delete_photo'>
+                                <div className="delete" onClick={ this.removeUpload }>
+                                    <Icon type="delete" style={{fontSize: '20px'}} />
+                                </div>
                             </div>
                         }
                     </Upload>
@@ -44,6 +46,7 @@ class PortraitUpload extends React.Component {
         this.state = {
             loading: false,
             uploaded: false,
+            onMouse: false,
         };
     }
     // 删除头像 --> 请求删除头像
@@ -54,6 +57,15 @@ class PortraitUpload extends React.Component {
             loading: false,
         })
     };
+    handleMouseEnter = event => {
+        if (this.state.uploaded){
+            this.setState({onMouse: true});
+        }
+    }
+    handleMouseLeave = event => {
+        if (this.state.uploaded)
+            this.setState({onMouse: false});
+    }
     handleChange = info => {
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
@@ -65,6 +77,7 @@ class PortraitUpload extends React.Component {
                 this.setState({
                     imageUrl,
                     loading: false,
+                    onMouse: false
                 }),
             );
         }

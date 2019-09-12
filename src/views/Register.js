@@ -14,6 +14,8 @@ import {
 	Tooltip,
 	message,
 	Button,
+	Select,
+	Form
 } from 'antd';
 import MailOption from '../components/MailOption';
 import TweenOne from 'rc-tween-one';
@@ -37,6 +39,7 @@ class Register extends React.Component {
 	prevMail = '@qq.com';
 	sendVCodeCount = 0;
 	render() {
+		const { getFieldDecorator } = this.props.form;
 		return (
 			<div className='register'>
 				<Prompt message={this.handleOnLeave} />
@@ -56,7 +59,7 @@ class Register extends React.Component {
 						</div>
 					</div>
 					<Slider className="track" />
-					<p className='title_tips'><span onClick={this.handleNavBarClickBreakHome}>点击此处返回</span></p>
+					<p className='title_tips'><span onClick={this.handleNavBarClickBreakHome}><Icon type="redo" />点击此处返回主页</span><span style={{ marginLeft: '20px' }}><Icon type="login" />点此登录</span></p>
 				</div>
 				<div className='register_content' ref={registerContent => this.registerContent = registerContent}>
 					<h1 className='header'>
@@ -104,56 +107,65 @@ class Register extends React.Component {
 												onChange={this.handleMailInputChange}
 											/>
 										</Tooltip>
-										<div className='register_v_p'>
-											<Tooltip
-												trigger={['focus']}
-												title={"密码(不允许出现特殊字符),长度保持在8-15位"}
-												placement="topLeft"
-												overlayClassName="numeric-input">
-												<Password
-													type='password'
-													placeholder='密码...'
-													onFocus={this.handlePasswordInputFocus}
-													onBlur={this.handlePasswordInputBlur}
-													prefix={<Icon type="key" style={this.state.passwordInputIsIn ? { color: 'rgb(24, 144, 255)' } : { color: 'rgba(0, 0, 0, .25)' }} />}
-													onChange={this.handlePasswordInputChanged}
-													size='large'
-													maxLength={20}
-													visibilityToggle={true}
-													value={this.state.password}
-													style={{ marginRight: '20px' }} />
-											</Tooltip>
-											<div className='send_vcode_group'>
-												<Tooltip
-													trigger={['focus']}
-													title={"验证码由长度6位的数字与字母组成"}
-													placement="topLeft"
-													overlayClassName="numeric-input">
-													<Input
-														type='text'
-														placeholder='验证码'
-														size='large'
-														value={this.state.verificationCode}
-														onChange={this.handleVerificationCodeInputChanged}
-														maxLength={6}
-														className='register_vcode' />
-												</Tooltip>
-												<Button
-													type='primary'
-													size='large'
-													disabled={this.state.isSendVCode}
-													onClick={this.handleSendVerificationCode}
-													className='register_send_vcode'>{this.state.isSendVCode ? `重新发送(${
-														(this.state.sendVCodeTime + "").length === 1 ? "0" + this.state.sendVCodeTime : this.state.sendVCodeTime
-														})` : '发送验证码'}</Button>
-											</div>
+										<div className='send_vcode_group'>
+
+											<Input
+												type='text'
+												placeholder='验证码'
+												size='large'
+												value={this.state.verificationCode}
+												onChange={this.handleVerificationCodeInputChanged}
+												maxLength={6}
+												className='register_vcode' />
+											<Button
+												type='primary'
+												size='large'
+												disabled={this.state.isSendVCode}
+												onClick={this.handleSendVerificationCode}
+												className='register_send_vcode'>{this.state.isSendVCode ? `重新发送(${
+													(this.state.sendVCodeTime + "").length === 1 ? "0" + this.state.sendVCodeTime : this.state.sendVCodeTime
+													})` : '发送验证码'}</Button>
 										</div>
 										<Button className='to_next' size='large' type='primary' onClick={this.handleToNextClick}>下一步</Button>
 									</div>
 								) : (this.props.register.current === 1 ? (
 									<div className='edit_register_info' ref={ref => this.editRegisterInfoEl = ref} key={'current_2'}>
-										<PortraitUpload />
-										<Button className='register_submit' onClick={this.finishRegister} type='primary'>提交</Button>
+										<Form layout="inline" onSubmit={this.finishRegister}>
+											<div className='register_info_top'>
+												<div className='register_info_top_input'>
+													<Form.Item label="密码" hasFeedback>
+														{getFieldDecorator('password', {
+															rules: [
+																{
+																	required: true,
+																	message: 'Please input your password!',
+																},
+																{
+																	validator: this.validateToNextPassword,
+																},
+															],
+														})(<Input.Password />)}
+													</Form.Item>
+													<Form.Item label="确认密码" hasFeedback>
+														{getFieldDecorator('confirm', {
+															rules: [
+																{
+																	required: true,
+																	message: 'Please confirm your password!',
+																},
+																{
+																	validator: this.compareToFirstPassword,
+																},
+															],
+														})(<Input.Password onBlur={this.handleConfirmBlur} />)}
+													</Form.Item>
+												</div>
+												<div className='upload'>
+													<PortraitUpload />
+												</div>
+											</div>
+											<Button className='register_submit' onClick={this.finishRegister} type='primary'>提交</Button>
+										</Form>
 									</div>
 								) : (
 										<div className='register_finish' ref={ref => this.registerFinishEl = ref} key={'current_3'}>
@@ -194,7 +206,7 @@ class Register extends React.Component {
 			// 验证邮箱容器高度
 			VMailElHeight: 160,
 			// 编辑资料容器高度
-			editRegisterInfoElHeight: 130,
+			editRegisterInfoElHeight: 200,
 			// 注册完成容器高度
 			registerFinishElHeight: 30
 		};
@@ -252,6 +264,7 @@ class Register extends React.Component {
 	 * @param {*} _time 验证码秒数
 	 */
 	initSendVCodeTimer(_time) {
+		window.clearInterval(this.sendVCodeTimer);
 		this.setState({
 			isSendVCode: true,
 			sendVCodeTime: _time,
@@ -274,10 +287,10 @@ class Register extends React.Component {
 	handleSendVerificationCode = () => {
 		// 合并邮箱前缀 和后缀  （注意自定义模式下 后缀为空串）
 		const email = this.state.mail + this.state.option;
-		Api.getCaptcha(email).then(({data}) => {
+		Api.getCaptcha(email).then(({ data }) => {
 			if (data === 'USER_OPERATION_SUCCESSFUL') {
 				message.success("验证码发送已发送 请查收！");
-				const sendTime = ++ this.sendVCodeCount < 3 ? 60 : 120;
+				const sendTime = ++this.sendVCodeCount < 3 ? 60 : 120;
 				this.updateSendCount()
 				Cookie.set("VCODE", JSON.stringify({ time: Date.now() + sendTime * 1000 }), sendTime);
 				this.initSendVCodeTimer(sendTime);
@@ -321,10 +334,6 @@ class Register extends React.Component {
 				this.setState({ option: this.prevMail });
 		});
 	};
-	// 密码Input Changed
-	handlePasswordInputChanged = event => {
-		this.setState({ password: event.target.value.replace(/[^0-9a-zA-Z.]/img, '') });
-	}
 	// 验证码Input Changed
 	handleVerificationCodeInputChanged = event => {
 		this.setState({
@@ -367,4 +376,4 @@ export default connect(
 			setRegisterCurrent: data => { dispatch(Action.setRegisterCurrent(data)) }
 		}
 	}
-)(withRouter(Register));
+)(withRouter(Form.create({ name: 'register' })(Register)));
