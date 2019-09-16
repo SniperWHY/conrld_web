@@ -6,7 +6,7 @@
 >>Contributor
 >>---
 >>![WHY](https://avatars3.githubusercontent.com/u/40160738?s=100)  
->>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[WHY](https://github.com/SniperWHY)
+>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[WHY](https://github.com/SniperWHY)
 >---
 >>#### Plug-ins in use :
 >>`react` , `react-dom` , `react-redux` , `react-router-dom` , `sass` , `Ant Design` , `for-editor` , `md5`
