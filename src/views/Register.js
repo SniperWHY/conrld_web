@@ -13,14 +13,12 @@ import {
 	Input,
 	Tooltip,
 	message,
-	Button,
-	Select,
-	Form
+	Button
 } from 'antd';
 import MailOption from '../components/MailOption';
+import RegisterForm from '../components/RegisterForm';
 import TweenOne from 'rc-tween-one';
 import Slider from "../components/Slider";
-import PortraitUpload from '../components/PortraitUpload';
 import Util from '../tools';
 import * as Api from '../api';
 import {
@@ -33,13 +31,11 @@ import {
 import '../styles/register.scss';
 
 const Cookie = new Util.Cookies();
-const { Password } = Input;
 
 class Register extends React.Component {
 	prevMail = '@qq.com';
 	sendVCodeCount = 0;
 	render() {
-		const { getFieldDecorator } = this.props.form;
 		return (
 			<div className='register'>
 				<Prompt message={this.handleOnLeave} />
@@ -130,42 +126,8 @@ class Register extends React.Component {
 									</div>
 								) : (this.props.register.current === 1 ? (
 									<div className='edit_register_info' ref={ref => this.editRegisterInfoEl = ref} key={'current_2'}>
-										<Form layout="inline" onSubmit={this.finishRegister}>
-											<div className='register_info_top'>
-												<div className='register_info_top_input'>
-													<Form.Item label="密码" hasFeedback>
-														{getFieldDecorator('password', {
-															rules: [
-																{
-																	required: true,
-																	message: 'Please input your password!',
-																},
-																{
-																	validator: this.validateToNextPassword,
-																},
-															],
-														})(<Input.Password />)}
-													</Form.Item>
-													<Form.Item label="确认密码" hasFeedback>
-														{getFieldDecorator('confirm', {
-															rules: [
-																{
-																	required: true,
-																	message: 'Please confirm your password!',
-																},
-																{
-																	validator: this.compareToFirstPassword,
-																},
-															],
-														})(<Input.Password onBlur={this.handleConfirmBlur} />)}
-													</Form.Item>
-												</div>
-												<div className='upload'>
-													<PortraitUpload />
-												</div>
-											</div>
-											<Button className='register_submit' onClick={this.finishRegister} type='primary'>提交</Button>
-										</Form>
+										<RegisterForm />
+										<Button className='register_submit' onClick={this.finishRegister} type='primary'>提交</Button>
 									</div>
 								) : (
 										<div className='register_finish' ref={ref => this.registerFinishEl = ref} key={'current_3'}>
@@ -206,7 +168,7 @@ class Register extends React.Component {
 			// 验证邮箱容器高度
 			VMailElHeight: 160,
 			// 编辑资料容器高度
-			editRegisterInfoElHeight: 200,
+			editRegisterInfoElHeight: 500,
 			// 注册完成容器高度
 			registerFinishElHeight: 30
 		};
@@ -376,4 +338,4 @@ export default connect(
 			setRegisterCurrent: data => { dispatch(Action.setRegisterCurrent(data)) }
 		}
 	}
-)(withRouter(Form.create({ name: 'register' })(Register)));
+)(withRouter(Register));

@@ -63,17 +63,6 @@
                     }
                 }
                 .edit_register_info {
-                    .register_info_top {
-                        display: flex;
-                        justify-content: space-between;
-                        .register_info_top_input {
-                            flex: 1;
-                        }
-                        .upload {
-                            transform: translate(12px,-12px)
-                        }
-                    }
-                    
                     .register_submit {
                         width: 100%;
                     }
