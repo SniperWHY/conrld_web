@@ -2,7 +2,6 @@
     width: 100px;
     height: 100px;
     display: inline-block;
-    margin: 12px;
     .avatar-uploader{
         .ant-upload {
             width: 100px;
@@ -17,8 +16,8 @@
                     box-sizing: content-box;
                     border-radius: 4px;
                     background: rgba(200, 200, 200, .5);
-                    top: 0%;
-                    right: 0%;
+                    top: 0;
+                    right: 0;
                     .delete {
                         position: absolute;
                         top: 50%;

@@ -1,0 +1,12 @@
+.register_form {
+    .account_info_top {
+        margin-bottom: 20px;
+        display: flex;
+        .info_left {
+            flex: 1;
+        }
+        .info_right {
+            margin-left: 30px;
+        }
+    }
+}

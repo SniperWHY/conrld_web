@@ -126,8 +126,7 @@ class Register extends React.Component {
 									</div>
 								) : (this.props.register.current === 1 ? (
 									<div className='edit_register_info' ref={ref => this.editRegisterInfoEl = ref} key={'current_2'}>
-										<RegisterForm />
-										<Button className='register_submit' onClick={this.finishRegister} type='primary'>提交</Button>
+										<RegisterForm setHeight={ this.setRegisterTwoHeight.bind(this) } handleSubmit={ this.finishRegister } />
 									</div>
 								) : (
 										<div className='register_finish' ref={ref => this.registerFinishEl = ref} key={'current_3'}>
@@ -168,7 +167,7 @@ class Register extends React.Component {
 			// 验证邮箱容器高度
 			VMailElHeight: 160,
 			// 编辑资料容器高度
-			editRegisterInfoElHeight: 500,
+			editRegisterInfoElHeight: 481.38,
 			// 注册完成容器高度
 			registerFinishElHeight: 30
 		};
@@ -267,7 +266,7 @@ class Register extends React.Component {
 		this.props.setRegisterCurrent(1);
 	};
 	// 提交个人资料完成注册 ==> 有请求
-	finishRegister = () => {
+	finishRegister = event => {
 		this.setState({
 			stepStatus: 'finish'
 		}, () => this.props.setRegisterCurrent(2));
@@ -302,6 +301,13 @@ class Register extends React.Component {
 			verificationCode: event.target.value.replace(/[^0-9a-zA-Z]/img, '')
 		});
 	};
+	// 注册2容器高度
+	setRegisterTwoHeight (editRegisterInfoElHeight) {
+		if (editRegisterInfoElHeight === this.state.editRegisterInfoElHeight) return;
+		this.setState({
+			editRegisterInfoElHeight,
+		});
+	}
 	// 邮箱下拉菜单 Changed
 	handleMailInputSelectChange = (option) => {
 		if (this.state.mail.indexOf('@') !== -1)
