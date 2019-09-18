@@ -23,6 +23,8 @@ const disabledDate = (current) => {
     return current < moment(new Date('1970/01/01')) || current > moment().endOf('day')
 };
 
+const { BMap, BMAP_STATUS_SUCCESS }  = window;
+const { Map, Point, Geolocation } = BMap;
 class RegistrationForm extends React.Component {
     constructor (props) {
         super(props);
@@ -57,31 +59,33 @@ class RegistrationForm extends React.Component {
     };
     validateToNextPassword = (rule, value, callback) => {
         const { form } = this.props;
-        if (value && this.state.confirmDirty) {
+        if (value && this.state.confirmDirty)
             form.validateFields(['confirm'], { force: true });
-        }
         callback();
     };
+
     handleWebsiteChange = value => {
         let autoCompleteResult;
-        if (!value) {
+        if (!value)
             autoCompleteResult = [];
-        } else {
+        else
             autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-        }
         this.setState({ autoCompleteResult });
     };
     componentDidMount() {
-        let citySearch = new window.AMap.CitySearch();
-        //自动获取用户IP，返回当前城市
-        citySearch.getLocalCity(function(status, result) {
-            if (status === 'complete' && result.info === 'OK') {
-                if (result && result.city && result.bounds) {
-                    let { city } = result;
-                    console.log('您当前所在城市：'+ city);
-                }
-            } else {
-                console.log(result);
+        let map = new Map("allmap");
+        let point = new Point(116.331398,39.897445);
+        map.centerAndZoom(point,12);
+        let geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function (r){
+            if(this.getStatus() === BMAP_STATUS_SUCCESS){
+                let mk = new BMap.Marker(r.point);
+                map.addOverlay(mk);
+                map.panTo(r.point);
+                alert('您的位置：'+r.point.lng+','+r.point.lat);
+            }
+            else {
+                alert('failed'+this.getStatus());
             }
         });
         DomSize.bind(this.form, () => {
@@ -219,5 +223,4 @@ class RegistrationForm extends React.Component {
         );
     }
 }
-
 export default Form.create({ name: 'register' })(RegistrationForm);
